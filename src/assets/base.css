@@ -1,0 +1,16 @@
+:root {
+    background-color: #111111;
+    color: white;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+.empty {
+    color: grey;
+}
