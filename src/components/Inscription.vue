@@ -27,7 +27,7 @@ function isCompleted(): boolean {
 
 function updateInput(event: KeyboardEvent): void {
     if (event.key === "Enter")
-        emit('onCompleted', 'incorrect');
+        unfocus('incorrect');
 
     if (event.key === "Backspace") {
         input.value.pop();
@@ -43,7 +43,7 @@ function updateInput(event: KeyboardEvent): void {
     input.value.push(event.key);
 
     if (isCompleted())
-        emit('onCompleted', 'correct');
+        unfocus('correct');
 }
 
 function isCorrect(letter: string, index: number): string {
@@ -56,7 +56,18 @@ function isCorrect(letter: string, index: number): string {
         return 'incorrect';
 }
 
-window.addEventListener('keydown', updateInput);
+function unfocus(style: string): void {
+    window.removeEventListener('keydown', updateInput);
+    emit('onCompleted', style);
+}
+
+function focus(): void {
+    window.addEventListener('keydown', updateInput);
+}
+
+defineExpose({
+    focus
+});
 </script>
 
 <template>
