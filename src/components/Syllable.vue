@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useTemplateRef, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import type { ISyllable } from '@/common/types';
 import Inscription from '@/components/Inscription.vue';
 
@@ -11,14 +11,11 @@ const props = defineProps<{
 
 let status: Ref<string> = ref('empty');
 
-const ins: any = ref(null);
+const inscriptionRef: Ref<InstanceType<typeof Inscription> | null> = ref(null);
 
 function focus() {
-    console.log('[Syllable] focused');
-    if (ins.value)
-        ins.value.focus();
-    else
-        console.log('[Syllable] ins.value is null');
+    if (inscriptionRef.value)
+        inscriptionRef.value.focus();
 }
 
 defineExpose({
@@ -31,7 +28,7 @@ focus();
 <template>
     <div class="syllable">
         <Inscription
-            ref="ins"
+            ref="inscriptionRef"
             class="letter"
             v-bind:spelling="props.syllable.spelling"
             v-on:on-completed="(style: string) => { status = style; emit('onCompleted') }"
