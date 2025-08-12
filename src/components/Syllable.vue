@@ -13,16 +13,22 @@ let status: Ref<string> = ref('empty');
 
 const inscriptionRef: Ref<InstanceType<typeof Inscription> | null> = ref(null);
 
-function focus() {
+function focus(): void {
     if (inscriptionRef.value)
         inscriptionRef.value.focus();
 }
 
-defineExpose({
-    focus
-});
+function clear(): void {
+    status.value = 'empty';
 
-focus();
+    if (inscriptionRef.value)
+        inscriptionRef.value.clear();
+}
+
+defineExpose({
+    focus,
+    clear
+});
 </script>
 
 <template>

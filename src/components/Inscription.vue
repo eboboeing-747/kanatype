@@ -65,8 +65,13 @@ function focus(): void {
     window.addEventListener('keydown', updateInput);
 }
 
+function clear(): void {
+    input.value = [];
+}
+
 defineExpose({
-    focus
+    focus,
+    clear
 });
 </script>
 
