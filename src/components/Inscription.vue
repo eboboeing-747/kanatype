@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
 
 const emit = defineEmits(['onCompleted']);
 
@@ -65,14 +65,11 @@ function focus(): void {
     window.addEventListener('keydown', updateInput);
 }
 
-function clear(): void {
-    input.value = [];
-}
+defineExpose({ focus });
 
-defineExpose({
-    focus,
-    clear
-});
+onMounted(() => {
+    input.value = [];
+})
 </script>
 
 <template>
@@ -94,5 +91,5 @@ defineExpose({
 </style>
 
 <style>
-@import '@/assets/base.css'
+@import '@/assets/base.css';
 </style>

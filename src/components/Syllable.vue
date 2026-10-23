@@ -18,17 +18,7 @@ function focus(): void {
         inscriptionRef.value.focus();
 }
 
-function clear(): void {
-    status.value = 'empty';
-
-    if (inscriptionRef.value)
-        inscriptionRef.value.clear();
-}
-
-defineExpose({
-    focus,
-    clear
-});
+defineExpose({ focus });
 </script>
 
 <template>
