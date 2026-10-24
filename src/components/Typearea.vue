@@ -4,40 +4,40 @@ import Syllable from '@/components/Syllable.vue'
 import { onMounted, ref, type Ref } from 'vue';
 import { generateQuiz } from '@/common/quiz';
 
+const syllables: Ref<ISyllable[]> = ref(generateQuiz());
 const currentFocus: Ref<number> = ref(0);
-const syllableList: any /* Ref<InstanceType<typeof Syllable>[]> */ = ref([]); // no idea how to properly type it
+const syllablesRef: Ref<any[]> = ref([]);
+
+function isAtEnd(): boolean {
+    return currentFocus.value >= syllables.value.length;
+}
 
 function passFocus(): void {
     currentFocus.value++;
-    if (currentFocus.value < syllableList.value.length) {
-        syllableList.value[currentFocus.value].focus();
-    }
-    else {
-        syllables.value = generateQuiz();
-        currentFocus.value = 0;
 
-        for (let i: number = 0; i < syllableList.value.length; i++) {
-            syllableList.value[i].clear();
-        }
-
-        syllableList.value[0].focus();
+    if (isAtEnd()) {
+        reGenerate();
+    } else {
+        syllablesRef.value[currentFocus.value].focus();
     }
 }
 
-onMounted((): void => {
-    syllableList.value[0].focus();
-});
+const emit = defineEmits(['onCompleted'])
 
-let syllables: Ref<ISyllable[]> = ref(generateQuiz());
+function reGenerate() {
+    emit('onCompleted');
+}
+
+onMounted((): void => {
+    syllablesRef.value[0].focus();
+});
 </script>
 
 <template>
-    <div
-        class="typearea"
-    >
+    <div class="typearea">
         <Syllable
             v-for="(syllable, index) in syllables"
-            v-bind:ref="(syllableRef): void => { if (syllableRef) syllableList[index] = syllableRef }"
+            ref="syllablesRef"
             v-bind:syllable="syllable"
             v-bind:key="index"
             v-on:on-completed="passFocus"
